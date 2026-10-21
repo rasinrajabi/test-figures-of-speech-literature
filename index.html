@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Средства художественной выразительности · Зимняя сказка</title>
+<style>
+  :root{
+    --ice:#8ec5df;
+    --ice-mid:#5a9fc4;
+    --ice-deep:#2f6f95;
+    --ice-light:#d8edf8;
+    --frost:#f3fafe;
+    --navy:#16303f;
+    --slate:#4d6b7d;
+    --line:#cfe3ee;
+    --ok:#2f7d5b;
+    --ok-soft:#dcf2e7;
+    --bad:#b74237;
+    --bad-soft:#fbe2de;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+
+  html,body{height:100%;}
+
+  body{
+    font-family:'Palatino Linotype','Book Antiqua',Georgia,'Times New Roman',serif;
+    color:var(--navy);
+    background:
+      radial-gradient(circle at 18% 12%, rgba(255,255,255,.95) 0%, transparent 42%),
+      radial-gradient(circle at 85% 88%, rgba(120,180,212,.45) 0%, transparent 48%),
+      linear-gradient(165deg,#f7fcff 0%,#e0f1fb 32%,#bfdfef 62%,#93c4dd 100%);
+    background-attachment:fixed;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* ===== СНЕГОПАД ===== */
+  .snowfall{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:0;
+    overflow:hidden;
+  }
+  .snowflake{
+    position:absolute;
+    top:0;
+    color:#fff;
+    line-height:1;
+    animation:snowDrop linear infinite;
+    text-shadow:0 0 10px rgba(255,255,255,.85);
+    will-change:transform;
+  }
+  @keyframes snowDrop{
+    from{transform:translateY(-12vh) rotate(0deg);}
+    to{transform:translateY(112vh) rotate(360deg);}
+  }
+  .bg-glow{
+    position:fixed;
+    top:50%;left:50%;
+    width:min(1000px,140vw);
+    height:min(1000px,140vw);
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(255,255,255,.6) 0%,rgba(255,255,255,0) 65%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ===== APP ===== */
+  .app{
+    position:relative;
+    z-index:2;
+    width:100%;
+    max-width:820px;
+    min-height:min(680px, calc(100vh - 40px));
+    max-height:calc(100vh - 40px);
+    background:rgba(255,255,255,.94);
+    border:2px solid rgba(142,197,223,.7);
+    border-radius:26px;
+    box-shadow:
+      0 24px 60px rgba(22,48,63,.18),
+      0 4px 14px rgba(22,48,63,.08),
+      inset 0 1px 0 #fff;
+    padding:36px 46px 40px;
+    overflow-y:auto;
+    overscroll-behavior:contain;
+    backdrop-filter:blur(10px);
+  }
+  .app::-webkit-scrollbar{width:8px;}
+  .app::-webkit-scrollbar-thumb{background:rgba(47,111,149,.28);border-radius:99px;}
+
+  .screen{display:none;flex-direction:column;min-height:100%;}
+  .screen.active{display:flex;animation:fade .5s ease;}
+  @keyframes fade{
+    from{opacity:0;transform:translateY(12px);}
+    to{opacity:1;transform:translateY(0);}
+  }
+
+  /* ===== СТАРТ ===== */
+  .start{
+    text-align:center;
+    padding:32px 8px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+  }
+  .start-eyebrow{
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    color:var(--ice-deep);
+    font-weight:700;
+    margin-bottom:16px;
+  }
+  .start-title{
+    font-size:clamp(1.9rem,4.5vw,2.8rem);
+    font-weight:700;
+    line-height:1.2;
+    color:var(--navy);
+    margin-bottom:8px;
+    letter-spacing:.3px;
+  }
+  .start-title em{
+    font-style:italic;
+    color:var(--ice-deep);
+  }
+  .start-sub{
+    font-size:1.05rem;
+    color:var(--slate);
+    font-style:italic;
+    margin-bottom:30px;
+  }
+  .start-rule{
+    width:90px;
+    height:2px;
+    background:linear-gradient(90deg,transparent,var(--ice-mid),transparent);
+    margin:0 auto 30px;
+  }
+  .start-meta{
+    display:flex;
+    gap:40px;
+    margin-bottom:36px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .meta-item{
+    text-align:center;
+    min-width:90px;
+  }
+  .meta-val{
+    font-size:2rem;
+    color:var(--ice-deep);
+    line-height:1;
+    margin-bottom:6px;
+    font-variant-numeric:tabular-nums;
+  }
+  .meta-lbl{
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-size:.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--slate);
+    font-weight:700;
+  }
+  .start-btn{
+    font-family:inherit;
+    font-size:1.1rem;
+    font-weight:700;
+    padding:15px 48px;
+    border:none;
+    border-radius:14px;
+    background:linear-gradient(135deg,#7cc0dd,#2f7ba3);
+    color:#fff;
+    cursor:pointer;
+    letter-spacing:.5px;
+    box-shadow:0 10px 26px rgba(47,123,163,.4),inset 0 -2px 4px rgba(0,0,0,.08);
+    transition:.22s;
+  }
+  .start-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 32px rgba(47,123,163,.5);
+  }
+  .start-btn:active{transform:scale(.97);}
+
+  /* ===== ТЕСТ ===== */
+  .test-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:16px;
+    margin-bottom:26px;
+    border-bottom:1.5px solid var(--line);
+    gap:14px;
+    flex-wrap:wrap;
+  }
+  .timer{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:linear-gradient(135deg,#eaf6fc,#cfe8f3);
+    border:1.5px solid var(--ice);
+    padding:8px 18px;
+    border-radius:12px;
+    font-weight:700;
+    color:var(--ice-deep);
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-variant-numeric:tabular-nums;
+    letter-spacing:1px;
+    font-size:1rem;
+  }
+  .timer-icon{font-size:1rem;}
+  .progress-wrap{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    flex:1;
+    min-width:180px;
+  }
+  .progress-bar{
+    flex:1;
+    height:8px;
+    background:rgba(47,111,149,.12);
+    border-radius:99px;
+    overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#bfe4f3,var(--ice-mid),var(--ice-deep));
+    border-radius:99px;
+    transition:width .4s ease;
+  }
+  .progress-count{
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-size:.85rem;
+    font-weight:700;
+    color:var(--ice-deep);
+    letter-spacing:1px;
+    white-space:nowrap;
+    font-variant-numeric:tabular-nums;
+  }
+
+  .q-label{
+    display:inline-block;
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-size:11px;
+    letter-spacing:3px;
+    text-transform:uppercase;
+    color:var(--ice-deep);
+    font-weight:700;
+    background:rgba(142,197,223,.18);
+    border:1.5px solid rgba(90,159,196,.4);
+    padding:5px 14px;
+    border-radius:99px;
+    margin-bottom:16px;
+  }
+  .q-text{
+    font-size:clamp(1.15rem,2.4vw,1.5rem);
+    font-weight:700;
+    line-height:1.5;
+    color:var(--navy);
+    margin-bottom:26px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+    margin-bottom:8px;
+  }
+  .opt{
+    font-family:inherit;
+    font-size:1.02rem;
+    line-height:1.5;
+    text-align:left;
+    padding:16px 22px;
+    border:2px solid var(--line);
+    border-radius:14px;
+    background:#fbfdff;
+    color:var(--navy);
+    cursor:pointer;
+    transition:.22s;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    position:relative;
+  }
+  .opt:hover:not(.locked){
+    border-color:var(--ice-mid);
+    background:#f2fafe;
+    transform:translateY(-2px);
+    box-shadow:0 8px 20px rgba(90,159,196,.2);
+  }
+  .opt.locked{cursor:default;}
+  .opt-letter{
+    flex:none;
+    width:30px;height:30px;
+    border:1.5px solid var(--line);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:.85rem;
+    font-weight:700;
+    color:var(--slate);
+    transition:.2s;
+    background:#fff;
+  }
+  .opt:hover:not(.locked) .opt-letter{
+    border-color:var(--ice-mid);
+    color:var(--ice-deep);
+    background:#f2fafe;
+  }
+  .opt.correct{
+    border-color:var(--ok);
+    background:var(--ok-soft);
+    color:#1d4f38;
+    font-weight:700;
+    animation:popGood .6s ease;
+  }
+  .opt.correct .opt-letter{
+    background:var(--ok);
+    border-color:var(--ok);
+    color:#fff;
+  }
+  .opt.wrong{
+    border-color:var(--bad);
+    background:var(--bad-soft);
+    color:#7a2018;
+    animation:shake .5s ease;
+  }
+  .opt.wrong .opt-letter{
+    background:var(--bad);
+    border-color:var(--bad);
+    color:#fff;
+  }
+  @keyframes popGood{
+    0%{transform:scale(1);}
+    40%{transform:scale(1.03);box-shadow:0 12px 30px rgba(47,125,91,.25);}
+    100%{transform:scale(1);}
+  }
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-8px);}
+    75%{transform:translateX(8px);}
+  }
+  .feedback{
+    margin-top:12px;
+    font-size:.95rem;
+    font-weight:700;
+    min-height:1.3em;
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    letter-spacing:.3px;
+  }
+  .feedback.ok{color:var(--ok);}
+  .feedback.no{color:var(--bad);}
+
+  /* ===== РЕЗУЛЬТАТ ===== */
+  .result{
+    text-align:center;
+    padding:16px 8px 8px;
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .result-medal{
+    width:110px;height:110px;
+    margin:0 auto 22px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#dff1fb,var(--ice),var(--ice-deep));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:2.6rem;
+    font-weight:700;
+    box-shadow:0 16px 40px rgba(47,111,149,.35),inset 0 -4px 8px rgba(0,0,0,.08);
+    animation:medalPop .9s cubic-bezier(.28,.84,.42,1);
+  }
+  @keyframes medalPop{
+    0%{opacity:0;transform:scale(.4) rotate(-20deg);}
+    60%{opacity:1;transform:scale(1.1) rotate(5deg);}
+    100%{transform:scale(1) rotate(0);}
+  }
+  .result-title{
+    font-size:clamp(1.6rem,3.5vw,2.2rem);
+    font-weight:700;
+    color:var(--navy);
+    margin-bottom:10px;
+    letter-spacing:.5px;
+  }
+  .result-msg{
+    font-size:1.05rem;
+    color:var(--slate);
+    font-style:italic;
+    margin-bottom:26px;
+    max-width:520px;
+    margin-left:auto;
+    margin-right:auto;
+    line-height:1.55;
+  }
+  .result-stats{
+    display:flex;
+    justify-content:center;
+    gap:16px;
+    margin-bottom:28px;
+    flex-wrap:wrap;
+  }
+  .stat-card{
+    flex:0 1 160px;
+    background:linear-gradient(135deg,#f7fcff,#e2f1fa);
+    border:2px solid var(--ice);
+    border-radius:16px;
+    padding:16px 20px;
+    box-shadow:0 8px 22px rgba(47,111,149,.12);
+  }
+  .stat-lbl{
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-size:.72rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--ice-deep);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  .stat-val{
+    font-size:2rem;
+    font-weight:700;
+    color:var(--navy);
+    line-height:1;
+    font-variant-numeric:tabular-nums;
+  }
+  .stat-val small{
+    font-size:.5em;
+    color:var(--slate);
+    font-weight:600;
+  }
+
+  .name-block{
+    max-width:520px;
+    width:100%;
+    margin:0 auto 22px;
+    padding:20px 24px;
+    background:linear-gradient(135deg,#f7fcff,#e6f4fb);
+    border:2px dashed var(--ice-mid);
+    border-radius:16px;
+    text-align:center;
+  }
+  .name-lbl{
+    font-family:'Segoe UI','Helvetica Neue',Arial,sans-serif;
+    font-size:.82rem;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--ice-deep);
+    font-weight:700;
+    margin-bottom:12px;
+  }
+  .name-row{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
+  .name-input{
+    flex:1 1 200px;
+    max-width:260px;
+    font-family:inherit;
+    font-size:1.05rem;
+    font-weight:600;
+    padding:11px 18px;
+    border:2px solid var(--line);
+    border-radius:12px;
+    background:#fbfdff;
+    color:var(--navy);
+    outline:none;
+    text-align:center;
+    transition:.2s;
+    letter-spacing:.3px;
+  }
+  .name-input:focus{
+    border-color:var(--ice-mid);
+    box-shadow:0 0 0 4px rgba(90,159,196,.18);
+  }
+  .save-btn{
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:700;
+    padding:11px 24px;
+    border:none;
+    border-radius:12px;
+    background:linear-gradient(135deg,#7cc0dd,#2f7ba3);
+    color:#fff;
+    cursor:pointer;
+    letter-spacing:.5px;
+    box-shadow:0 6px 16px rgba(47,123,163,.3);
+    transition:.2s;
+  }
+  .save-btn:hover:not(:disabled){
+    transform:translateY(-2px);
+    box-shadow:0 10px 22px rgba(47,123,163,.4);
+  }
+  .save-btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;}
+  .saved-note{
+    display:none;
+    margin-top:12px;
+    font-size:.9rem;
+    color:var(--ok);
+    font-weight:700;
+    letter-spacing:.3px;
+  }
+  .saved-note.show{display:block;animation:fade .5s ease;}
+
+  .restart-btn{
+    font-family:inherit;
+    font-size:1rem;
+    font-weight:700;
+    padding:12px 32px;
+    border:2px solid var(--ice-deep);
+    border-radius:12px;
+    background:transparent;
+    color:var(--ice-deep);
+    cursor:pointer;
+    letter-spacing:.5px;
+    transition:.22s;
+    margin-top:8px;
+  }
+  .restart-btn:hover{
+    background:var(--ice-deep);
+    color:#fff;
+    transform:translateY(-2px);
+  }
+
+  /* ===== СНЕЖНЫЕ ХЛОПЬЯ-КОНФЕТТИ ===== */
+  .confetti{
+    position:fixed;
+    pointer-events:none;
+    z-index:9999;
+    line-height:1;
+    animation:confFall var(--dur) cubic-bezier(.25,.6,.5,1) forwards;
+  }
+  @keyframes confFall{
+    0%{transform:translate(-50%,-50%) rotate(0deg) scale(1);opacity:1;}
+    100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) rotate(var(--rot)) scale(.4);opacity:0;}
+  }
+
+  /* ===== АДАПТИВ ===== */
+  @media (max-width:600px){
+    .app{padding:24px 22px 30px;border-radius:18px;}
+    .start-meta{gap:24px;}
+    .meta-val{font-size:1.6rem;}
+    .timer{padding:6px 12px;font-size:.9rem;}
+    .opt{padding:13px 16px;font-size:.96rem;}
+    .stat-card{flex:0 1 130px;padding:12px 14px;}
+    .stat-val{font-size:1.6rem;}
+    .result-medal{width:88px;height:88px;font-size:2rem;}
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow" aria-hidden="true"></div>
+<div class="snowfall" id="snowfall" aria-hidden="true"></div>
+
+<div class="app">
+
+  <!-- ========== СТАРТ ========== -->
+  <div class="screen active" id="screenStart">
+    <div class="start">
+      <div class="start-eyebrow">Проверочная работа</div>
+      <h1 class="start-title">Средства <em>художественной</em><br>выразительности</h1>
+      <p class="start-sub">Зимняя сказка · литературное чтение</p>
+      <div class="start-rule"></div>
+      <div class="start-meta">
+        <div class="meta-item">
+          <div class="meta-val">10</div>
+          <div class="meta-lbl">Вопросов</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-val">⏱</div>
+          <div class="meta-lbl">С таймером</div>
+        </div>
+      </div>
+      <button class="start-btn" id="startBtn" type="button">Начать тест</button>
+    </div>
+  </div>
+
+  <!-- ========== ТЕСТ ========== -->
+  <div class="screen" id="screenTest">
+    <div class="test-top">
+      <div class="timer"><span class="timer-icon">⏱</span><span id="timerText">00:00</span></div>
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-count" id="progressCount">1 / 10</div>
+      </div>
+    </div>
+    <div class="q-label" id="qLabel">Вопрос 1</div>
+    <div class="q-text" id="qText"></div>
+    <div class="options" id="optionsBox"></div>
+    <div class="feedback" id="feedbackBox"></div>
+  </div>
+
+  <!-- ========== РЕЗУЛЬТАТ ========== -->
+  <div class="screen" id="screenResult">
+    <div class="result">
+      <div class="result-medal" id="medal">★</div>
+      <div class="result-title" id="resultTitle">Тест завершён</div>
+      <div class="result-msg" id="resultMsg"></div>
+
+      <div class="result-stats">
+        <div class="stat-card">
+          <div class="stat-lbl">Правильно</div>
+          <div class="stat-val" id="scoreVal">0<small> / 10</small></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-lbl">Время</div>
+          <div class="stat-val" id="timeVal">00:00</div>
+        </div>
+      </div>
+
+      <div class="name-block">
+        <div class="name-lbl">Введите ваше имя</div>
+        <div class="name-row">
+          <input type="text" class="name-input" id="nameInput" maxlength="24" placeholder="Имя" autocomplete="off">
+          <button class="save-btn" id="saveBtn" type="button" disabled>Сохранить</button>
+        </div>
+        <div class="saved-note" id="savedNote">✓ Результат сохранён</div>
+      </div>
+
+      <div style="text-align:center;">
+        <button class="restart-btn" id="restartBtn" type="button">Пройти заново</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ===== СНЕГОПАД НА ФОНЕ ===== */
+(function makeSnow(){
+  const box = document.getElementById('snowfall');
+  const glyphs = ['❄','❅','❆','•','✦'];
+  for (let i = 0; i < 26; i++){
+    const s = document.createElement('span');
+    s.className = 'snowflake';
+    s.textContent = glyphs[Math.floor(Math.random() * glyphs.length)];
+    s.style.left = (Math.random() * 100) + '%';
+    s.style.fontSize = (8 + Math.random() * 15) + 'px';
+    s.style.animationDuration = (9 + Math.random() * 15) + 's';
+    s.style.animationDelay = (-Math.random() * 22) + 's';
+    s.style.opacity = (0.25 + Math.random() * 0.5).toFixed(2);
+    box.appendChild(s);
+  }
+})();
+
+(function(){
+  /* ============================================================
+     ВОПРОСЫ — 10 новых примеров, зимняя тема
+     ============================================================ */
+  const QUESTIONS = [
+    {
+      q: '«Серебристый иней» — это…',
+      options: ['Эпитет', 'Сравнение', 'Олицетворение'],
+      correct: 0
+    },
+    {
+      q: '«Река блестит, словно зеркало» — это…',
+      options: ['Эпитет', 'Сравнение', 'Олицетворение'],
+      correct: 1
+    },
+    {
+      q: '«Мороз рисует узоры на стекле» — это…',
+      options: ['Эпитет', 'Сравнение', 'Олицетворение'],
+      correct: 2
+    },
+    {
+      q: '«Ласковое солнце» — это…',
+      options: ['Сравнение', 'Олицетворение', 'Эпитет'],
+      correct: 2
+    },
+    {
+      q: '«Берёзы стоят, как свечи» — это…',
+      options: ['Сравнение', 'Эпитет', 'Олицетворение'],
+      correct: 0
+    },
+    {
+      q: '«Ручей смеётся и бежит» — это…',
+      options: ['Эпитет', 'Олицетворение', 'Сравнение'],
+      correct: 1
+    },
+    {
+      q: '«Мохнатые ели» — это…',
+      options: ['Сравнение', 'Эпитет', 'Олицетворение'],
+      correct: 1
+    },
+    {
+      q: '«Зима укрыла землю снегом» — это…',
+      options: ['Олицетворение', 'Эпитет', 'Сравнение'],
+      correct: 0
+    },
+    {
+      q: '«Снег лежит, будто пуховое одеяло» — это…',
+      options: ['Эпитет', 'Сравнение', 'Олицетворение'],
+      correct: 1
+    },
+    {
+      q: '«Румяная заря» — это…',
+      options: ['Олицетворение', 'Сравнение', 'Эпитет'],
+      correct: 2
+    }
+  ];
+
+  const TOTAL = QUESTIONS.length;
+
+  /* ============================================================
+     DOM
+     ============================================================ */
+  const screens = {
+    start: document.getElementById('screenStart'),
+    test: document.getElementById('screenTest'),
+    result: document.getElementById('screenResult')
+  };
+  const startBtn = document.getElementById('startBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  const timerText = document.getElementById('timerText');
+  const progressFill = document.getElementById('progressFill');
+  const progressCount = document.getElementById('progressCount');
+  const qLabel = document.getElementById('qLabel');
+  const qText = document.getElementById('qText');
+  const optionsBox = document.getElementById('optionsBox');
+  const feedbackBox = document.getElementById('feedbackBox');
+  const medalEl = document.getElementById('medal');
+  const resultTitle = document.getElementById('resultTitle');
+  const resultMsg = document.getElementById('resultMsg');
+  const scoreVal = document.getElementById('scoreVal');
+  const timeVal = document.getElementById('timeVal');
+  const nameInput = document.getElementById('nameInput');
+  const saveBtn = document.getElementById('saveBtn');
+  const savedNote = document.getElementById('savedNote');
+
+  /* ============================================================
+     СОСТОЯНИЕ
+     ============================================================ */
+  let current = 0;
+  let score = 0;
+  let locked = false;
+  let startTime = 0;
+  let timerId = null;
+  let elapsed = 0;
+
+  /* ============================================================
+     ЭКРАНЫ
+     ============================================================ */
+  function showScreen(name){
+    Object.values(screens).forEach(s => s.classList.remove('active'));
+    screens[name].classList.add('active');
+    document.querySelector('.app').scrollTop = 0;
+  }
+
+  /* ============================================================
+     ТАЙМЕР
+     ============================================================ */
+  function pad(n){ return String(n).padStart(2, '0'); }
+  function fmt(sec){
+    return pad(Math.floor(sec / 60)) + ':' + pad(sec % 60);
+  }
+  function tick(){
+    elapsed = Math.floor((Date.now() - startTime) / 1000);
+    timerText.textContent = fmt(elapsed);
+  }
+
+  /* ============================================================
+     РЕНДЕР ВОПРОСА
+     ============================================================ */
+  const LETTERS = ['A', 'Б', 'В'];
+  function renderQuestion(){
+    locked = false;
+    const q = QUESTIONS[current];
+    qLabel.textContent = 'Вопрос ' + (current + 1);
+    qText.textContent = q.q;
+    feedbackBox.textContent = '';
+    feedbackBox.className = 'feedback';
+    optionsBox.innerHTML = '';
+
+    q.options.forEach((optText, i) => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'opt';
+      btn.dataset.index = i;
+      btn.innerHTML = '<span class="opt-letter">' + LETTERS[i] + '</span><span>' + optText + '</span>';
+      btn.addEventListener('click', () => choose(i, btn));
+      optionsBox.appendChild(btn);
+    });
+
+    progressCount.textContent = (current + 1) + ' / ' + TOTAL;
+    progressFill.style.width = ((current) / TOTAL * 100) + '%';
+  }
+
+  /* ============================================================
+     ВЫБОР ОТВЕТА
+     ============================================================ */
+  function choose(idx, btn){
+    if (locked) return;
+    locked = true;
+    const q = QUESTIONS[current];
+    const isCorrect = idx === q.correct;
+
+    const all = optionsBox.querySelectorAll('.opt');
+    all.forEach(b => b.classList.add('locked'));
+
+    if (isCorrect){
+      score++;
+      btn.classList.add('correct');
+      feedbackBox.textContent = '✓ Верно!';
+      feedbackBox.className = 'feedback ok';
+      burstConfetti(btn);
+      setTimeout(nextQuestion, 900);
+    } else {
+      btn.classList.add('wrong');
+      all[q.correct].classList.add('correct');
+      feedbackBox.textContent = '✗ Правильный ответ выделен зелёным.';
+      feedbackBox.className = 'feedback no';
+      setTimeout(nextQuestion, 1500);
+    }
+  }
+
+  function nextQuestion(){
+    current++;
+    if (current >= TOTAL){
+      finish();
+    } else {
+      renderQuestion();
+    }
+  }
+
+  /* ============================================================
+     СТАРТ
+     ============================================================ */
+  function startTest(){
+    current = 0;
+    score = 0;
+    locked = false;
+    elapsed = 0;
+    startTime = Date.now();
+    timerText.textContent = '00:00';
+
+    if (timerId) clearInterval(timerId);
+    timerId = setInterval(tick, 250);
+
+    showScreen('test');
+    renderQuestion();
+  }
+
+  /* ============================================================
+     ФИНИШ
+     ============================================================ */
+  function finish(){
+    if (timerId) clearInterval(timerId);
+    timerId = null;
+    elapsed = Math.floor((Date.now() - startTime) / 1000);
+
+    showScreen('result');
+    scoreVal.innerHTML = score + '<small> / ' + TOTAL + '</small>';
+    timeVal.textContent = fmt(elapsed);
+
+    const pct = score / TOTAL;
+    let medal = '★';
+    let title = 'Тест завершён';
+    let msg = '';
+
+    if (pct === 1){
+      medal = '★';
+      title = 'Превосходно!';
+      msg = 'Все ответы верные. Ты отлично разбираешься в средствах художественной выразительности!';
+    } else if (pct >= 0.8){
+      medal = '◆';
+      title = 'Отличный результат!';
+      msg = 'Почти всё правильно. Немного повтори — и будет идеально.';
+    } else if (pct >= 0.6){
+      medal = '●';
+      title = 'Хорошо!';
+      msg = 'Больше половины правильных ответов. Стоит закрепить тему.';
+    } else if (pct >= 0.4){
+      medal = '○';
+      title = 'Неплохо';
+      msg = 'Есть над чем поработать. Перечитай определения и попробуй ещё раз.';
+    } else {
+      medal = '◇';
+      title = 'Попробуй ещё';
+      msg = 'Не расстраивайся. Повтори эпитет, сравнение и олицетворение — и всё получится!';
+    }
+
+    medalEl.textContent = medal;
+    resultTitle.textContent = title;
+    resultMsg.textContent = msg;
+
+    nameInput.value = '';
+    nameInput.disabled = false;
+    saveBtn.disabled = true;
+    savedNote.classList.remove('show');
+
+    setTimeout(() => burstConfetti(null, 80), 250);
+  }
+
+  /* ============================================================
+     РЕСТАРТ
+     ============================================================ */
+  function restart(){
+    if (timerId) clearInterval(timerId);
+    timerId = null;
+    startTest();
+  }
+
+  /* ============================================================
+     СНЕЖНЫЕ КОНФЕТТИ
+     ============================================================ */
+  function burstConfetti(el, count){
+    const n = count || 40;
+    const colors = ['#ffffff', '#d8edf8', '#8ec5df', '#5a9fc4', '#2f6f95', '#eaf7ff'];
+    let cx = window.innerWidth / 2;
+    let cy = window.innerHeight / 2;
+    if (el){
+      const r = el.getBoundingClientRect();
+      cx = r.left + r.width / 2;
+      cy = r.top + r.height / 2;
+    }
+    for (let i = 0; i < n; i++){
+      const p = document.createElement('div');
+      p.className = 'confetti';
+      p.textContent = '❄';
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 60 + Math.random() * 260;
+      const dx = Math.cos(angle) * dist;
+      const dy = Math.sin(angle) * dist - 160;
+      p.style.left = cx + 'px';
+      p.style.top = cy + 'px';
+      p.style.color = colors[Math.floor(Math.random() * colors.length)];
+      p.style.fontSize = (10 + Math.random() * 16) + 'px';
+      p.style.textShadow = '0 0 8px rgba(90,159,196,.6)';
+      p.style.setProperty('--dx', dx + 'px');
+      p.style.setProperty('--dy', dy + 'px');
+      p.style.setProperty('--rot', (Math.random() * 900 - 450) + 'deg');
+      p.style.setProperty('--dur', (1.0 + Math.random() * 1.2) + 's');
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 2400);
+    }
+  }
+
+  /* ============================================================
+     СОХРАНЕНИЕ ИМЕНИ
+     ============================================================ */
+  function saveName(){
+    const name = nameInput.value.trim();
+    if (name.length < 2) return;
+    saveBtn.disabled = true;
+    nameInput.disabled = true;
+    savedNote.classList.add('show');
+    burstConfetti(savedNote, 25);
+  }
+
+  /* ============================================================
+     СОБЫТИЯ
+     ============================================================ */
+  startBtn.addEventListener('click', startTest);
+  restartBtn.addEventListener('click', restart);
+  saveBtn.addEventListener('click', saveName);
+
+  nameInput.addEventListener('input', () => {
+    saveBtn.disabled = nameInput.value.trim().length < 2;
+  });
+  nameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !saveBtn.disabled){
+      e.preventDefault();
+      saveName();
+    }
+  });
+
+  // Клавиатура: 1-3 и A-В
+  document.addEventListener('keydown', (e) => {
+    if (!screens.test.classList.contains('active')) return;
+    if (locked) return;
+    const map = {
+      '1':0, '2':1, '3':2,
+      'a':0, 'A':0,
+      'б':1, 'Б':1, 'b':1, 'B':1,
+      'в':2, 'В':2, 'c':2, 'C':2
+    };
+    const idx = map[e.key];
+    if (idx !== undefined){
+      const btns = optionsBox.querySelectorAll('.opt');
+      if (btns[idx]){
+        e.preventDefault();
+        btns[idx].click();
+      }
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
